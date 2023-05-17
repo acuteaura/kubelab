@@ -71,6 +71,7 @@ Your OS or Dockerd is not using cgroupsv2.
 * Set the following kernel args:
   * `systemd.unified_cgroup_hierarchy=1`
   * `cgroup_no_v1="all"`
+  * [Guide for Fedora](https://fedoramagazine.org/setting-kernel-command-line-arguments-with-fedora-30/)
 * Reboot. See if Docker starts properly.
   * If it does not, add `--default-cgroupns-mode=private` to dockerd arguments (via `systemctl edit --full docker.service`)
   * You can also relocate your cgroupfsv2 to a place Docker expects, add this to fstab:
