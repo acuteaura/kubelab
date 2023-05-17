@@ -19,6 +19,9 @@ hubble:
     enabled: true
   ui:
     enabled: true
+    service:
+      annotations:
+        projectcontour.io/upstream-protocol.h2c: "80"
 gatewayAPI:
   enabled: true
 ingressController:

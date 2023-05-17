@@ -2,8 +2,10 @@ envoy:
   service:
     type: NodePort
     externalTrafficPolicy: Cluster
-#    nodePorts:
-#      http: 30080
-#      https: 30443
 defaultBackend:
   enabled: true
+configInline:
+  accesslog-format: envoy
+  disablePermitInsecure: false
+  gateway:
+    controllerName: projectcontour.io/gateway-controller

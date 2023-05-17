@@ -1,22 +1,65 @@
 ## Targets
 
-|-|-|
-| target         | description                                                                                                                                                                |
-| -------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| kind-up        | create kind cluster                                                                                                                                                        |
-| kind-down      | remove kind cluster, essentially a full reset                                                                                                                              |
-| cilium-up      | install cilium, required since no CNI or kube-proxy is deployed                                                                                                            |
-| cilium-upgrade | refresh values for cilium install, combine with `kubectl -n kube-system rollout restart deployment/cilium-operator` and `kubectl -n kube-system rollout restart ds/cilium` |
-| contour-up | install contour via helm |
-| gateway-up | install gateway-api CRDs (latest) |
-| demo-up | install emojivoto (linkerd mesh demo) |
+### kind-up
 
-# checking if cilium is okay
+Install kind, requirement for everything else
+
+### kind-down
+
+Tear everything down
+
+### gateway-api-up
+
+Required. Installs latest gateway-api CRDs
+
+### cilium-up
+
+Required. Install Cilium, cluster has no CNI without this!
+
+### cilium-gateway-api
+
+Install Cilium Gateway. Gatewayclass is included in `cilium-up`. Mutually exclusive with `contour-gateway-api`, since they use the same `Gateway` object.. **Currently broken due to backing service not being configurable, will result in forever pending LoadBalancer**. [Issue tracking progress on this](https://github.com/cilium/cilium/issues/21923).
+
+### linkerd-up
+
+Install linkerd. Requires linkerd CLI because the developers hate Helm or something.
+
+### linkerd-mesh-demo
+
+Injects linkerd into `emojivoto`.
+
+### istio-up
+
+
+
+### contour-up
+
+Install Contour. Gateway API support is enabled.
+
+### contour-gateway-api
+
+Install Contour `GatewayClass` and `Gateway`. Mutually exclusive with `cilium-gateway-api`, since they use the same `Gateway` object.
+
+### contour-gateway-demo-app
+
+Makes `demo-app` available at [emojivoto.local.gd](https://emojivoto.local.gd).
+
+### contour-gateway-hubble
+
+Makes Hubble UI (Cilium Mesh Dashboard) available at [hubble.local.gd](https://hubble.local.gd). Broken due to gRPC + h2c shenanigans. [Issue](https://github.com/cilium/hubble-ui/issues/452). Use Cilium UI's `cilium hubble ui` instead, or simply port-forward the service.
+
+### contour-httpproxy-demo-app
+
+Setup [emojivoto.local.gd](https://emojivoto.local.gd), but with Contour native CRD instead of Gateway API. Don't have both applied.
+
+## Other stuff
+
+### checking if cilium is okay
 
 * install cilium CLI
 * `cilium status`
 
-# check cilium hubble
+### check cilium hubble
 
 * install cilium CLI
 * `cilium hubble ui`
