@@ -1,4 +1,4 @@
-.PHONY: default kind-up kind-down cilium-up cilium-upgrade contour-up gateway-api-up gateway-api-cilium demo-up
+.PHONY: default kind-up kind-down cilium-up cilium-upgrade contour-up gateway-api-up gateway-api-cilium demo-up contour-gateway-api contour-gateway-demo-app
 
 default:
 
@@ -24,7 +24,7 @@ contour-up:
 	helm upgrade --install --kube-context kind-proxyless contour oci://registry-1.docker.io/bitnamicharts/contour --namespace projectcontour --create-namespace -f contour.values.yaml
 
 contour-gateway-api:
-	kubectl --context kind-proxyless apply -k gateway-api-cilium
+	kubectl --context kind-proxyless apply -k contour-gateway-api
 
 contour-gateway-demo-app:
 	kubectl --context kind-proxyless apply -k contour-gateway-demo-app
