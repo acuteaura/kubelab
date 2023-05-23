@@ -78,7 +78,7 @@ Setup [emojivoto.local.gd](https://emojivoto.local.gd), but with Contour native 
 * install cilium CLI
 * `cilium hubble ui`
 
-# I can't read anything on localhost:80/localhost:443
+### I can't read anything on localhost:80/localhost:443
 
 Your OS or Dockerd is not using cgroupsv2.
 
@@ -92,3 +92,18 @@ Your OS or Dockerd is not using cgroupsv2.
   }
   ```
 * Colima can't do this, see [issue](https://github.com/abiosoft/colima/issues/720)
+
+### Using Podman
+
+On macOS, run this:
+
+```
+brew install podman
+podman machine init
+podman machine set --rootful --cpus 4 --memory 8 # arbitrary CPU/Mem, but default is too low for 4 nodes
+podman machine start
+```
+
+And then set `KIND_EXPERIMENTAL_PROVIDER=podman` in your environment before running make.
+
+Everywhere else, make sure do not run Podman in rootless mode; there is no user-namespaced eBPF set it seems.
