@@ -91,7 +91,7 @@ Your OS or Dockerd is not using cgroupsv2.
     "exec-opts": ["native.cgroupdriver=cgroupfs"]
   }
   ```
-* Colima can't do this, see [issue](https://github.com/abiosoft/colima/issues/720)
+* Colima can't do this, see [issue](https://github.com/abiosoft/colima/issues/720). Use Podman as described below.
 
 ### Using Podman
 
