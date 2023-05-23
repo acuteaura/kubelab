@@ -1,26 +1,38 @@
+## Quickstart
+
+`make kind gateway-api cilium contour contour-gateway-api demo contour-gateway-demo-app`
+
+Connect to demo app: [emojivoto.local.gd](http://emojivoto.local.gd)
+
+Connect to hubble: `cilium ui hubble`
+
+## Pending refactors
+
+* Use CLIs over Helm for Cilium; Helm charts support unknown
+
 ## Targets
 
-### kind-up
+### kind
 
 Install kind, requirement for everything else
 
-### kind-down
+### clean
 
 Tear everything down
 
-### gateway-api-up
+### gateway-api
 
 Required. Installs latest gateway-api CRDs
 
-### cilium-up
+### cilium
 
 Required. Install Cilium, cluster has no CNI without this!
 
 ### cilium-gateway-api
 
-Install Cilium Gateway. Gatewayclass is included in `cilium-up`. Mutually exclusive with `contour-gateway-api`, since they use the same `Gateway` object.. **Currently broken due to backing service not being configurable, will result in forever pending LoadBalancer**. [Issue tracking progress on this](https://github.com/cilium/cilium/issues/21923).
+Install Cilium Gateway. Gatewayclass is included in `cilium`. Mutually exclusive with `contour-gateway-api`, since they use the same `Gateway` object.. **Currently broken due to backing service not being configurable, will result in forever pending LoadBalancer**. [Issue tracking progress on this](https://github.com/cilium/cilium/issues/21923).
 
-### linkerd-up
+### linkerd
 
 Install linkerd. Requires linkerd CLI because the developers hate Helm or something.
 
@@ -28,13 +40,15 @@ Install linkerd. Requires linkerd CLI because the developers hate Helm or someth
 
 Injects linkerd into `emojivoto`.
 
-### istio-up
+### istio
 
 
 
-### contour-up
+### contour
 
 Install Contour. Gateway API support is enabled.
+
+**Yes, this installs from Bitnami, who are a first-party vendor in this specific case - Contour is donated by VMWare and Bitnami is a VMWare company**
 
 ### contour-gateway-api
 
