@@ -6,7 +6,7 @@ envoy:
       http: 30080
       https: 30443
 defaultBackend:
-  enabled: true
+  enabled: false
 configInline:
   accesslog-format: envoy
   disablePermitInsecure: false

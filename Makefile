@@ -12,16 +12,21 @@ clean:
 gateway-api:
 	kubectl --context kind-proxyless apply -k gateway-api
 
+prometheus:
+	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+	helm install prometheus prometheus-community/kube-prometheus-stack --namespace prometheus --create-namespace --wait
+
+
 cilium:
 	helm repo add cilium https://helm.cilium.io/
-	helm upgrade --install --kube-context kind-proxyless cilium cilium/cilium --version 1.13.2 --namespace kube-system -f cilium-proxyless.values.yaml
+	helm upgrade --install --kube-context kind-proxyless cilium cilium/cilium --version 1.13.2 --namespace kube-system -f cilium-proxyless.values.yaml --wait
 #	helm upgrade --install --kube-context kind-proxyless cilium cilium/cilium --version 1.13.2 --namespace kube-system -f cilium.values.yaml
 
 cilium-gateway-api:
 	kubectl --context kind-proxyless apply -k gateway-api-cilium
 
 contour:
-	helm upgrade --install --kube-context kind-proxyless contour oci://registry-1.docker.io/bitnamicharts/contour --version 12.0.1 --namespace projectcontour --create-namespace -f contour.values.yaml
+	helm upgrade --install --kube-context kind-proxyless contour oci://registry-1.docker.io/bitnamicharts/contour --version 12.0.1 --namespace projectcontour --create-namespace -f contour.values.yaml --wait
 
 contour-gateway-api:
 	kubectl --context kind-proxyless apply -k contour-gateway-api
