@@ -1,0 +1,16 @@
+apiVersion: "cilium.io/v2"
+kind: CiliumNetworkPolicy
+metadata:
+  name: "web-svc"
+  namespace: "emojivoto"
+specs:
+  - description: ""
+    endpointSelector:
+      matchLabels:
+        app: web-svc
+    ingress:
+    - fromEndpoints:
+      - matchLabels:
+          app: vote-bot
+      - matchLabels:
+          k8s:io.kubernetes.pod.namespace: projectcontour

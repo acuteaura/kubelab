@@ -21,7 +21,7 @@ cilium-gateway-api:
 	kubectl --context kind-proxyless apply -k gateway-api-cilium
 
 contour:
-	helm upgrade --install --kube-context kind-proxyless contour oci://registry-1.docker.io/bitnamicharts/contour --namespace projectcontour --create-namespace -f contour.values.yaml
+	helm upgrade --install --kube-context kind-proxyless contour oci://registry-1.docker.io/bitnamicharts/contour --version 12.0.1 --namespace projectcontour --create-namespace -f contour.values.yaml
 
 contour-gateway-api:
 	kubectl --context kind-proxyless apply -k contour-gateway-api
