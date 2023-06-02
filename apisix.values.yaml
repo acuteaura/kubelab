@@ -1,0 +1,5 @@
+gateway:
+  http:
+    nodePort: 30080
+  tls:
+    nodePort: 30443

@@ -32,6 +32,14 @@ contour-gateway-demo-app:
 contour-httpproxy-demo-app:
 	kubectl --context kind-proxyless apply -k contour-httpproxy-demo-app
 
+apisix:
+	helm repo add apisix https://charts.apiseven.com
+	helm install apisix apisix/apisix --create-namespace  --namespace apisix -f apisix.values.yaml
+	helm install apisix-ingress-controller apisix/apisix-ingress-controller --namespace apisix
+
+apisix-bitnami:
+	helm upgrade --install --kube-context kind-proxyless apisix oci://registry-1.docker.io/bitnamicharts/apisix --namespace apisix --create-namespace -f apisix.values.yaml
+
 # linkerd really dislikes helm, so get yourself linkerd's cli `curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sh`
 linkerd:
 	linkerd --context kind-proxyless check --pre

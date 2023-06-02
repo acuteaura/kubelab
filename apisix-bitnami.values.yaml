@@ -1,0 +1,25 @@
+# somehow broken, don't see the issue, breaks on L24 at https://github.com/bitnami/charts/blob/main/bitnami/apisix/templates/control-plane/ingress.yaml
+# controlPlane:
+#   service:
+#     type: ClusterIP
+#   ingress:
+#     enabled: true
+#     ingressClassName: contour
+#     hostname: apisix-controlplane.local.gd
+dataPlane:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: contour
+    hostname: apisix-dataplane.local.gd
+dashboard:
+  service:
+    type: ClusterIP
+  ingress:
+    enabled: true
+    ingressClassName: contour
+    hostname: apisix-dashboard.local.gd
+ingressController:
+  ingress:
+    ingressClassName: apisix
