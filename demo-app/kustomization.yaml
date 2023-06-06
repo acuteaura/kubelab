@@ -1,3 +1,5 @@
 resources:
 - https://run.linkerd.io/emojivoto.yml
 - web-svc.policy.yaml
+commonAnnotations:
+  linkerd.io/inject: enabled

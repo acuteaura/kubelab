@@ -1,4 +1,4 @@
-.PHONY: default kind kind-down cilium ciliumgrade contour gateway-api gateway-api-cilium demo contour-gateway-api contour-gateway-demo-app
+.PHONY: apisix default kind kind-down cilium contour gateway-api gateway-api-cilium demo contour-gateway-api contour-gateway-demo-app
 
 default:
 
@@ -16,11 +16,8 @@ prometheus:
 	helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 	helm install prometheus prometheus-community/kube-prometheus-stack --namespace prometheus --create-namespace --wait
 
-
 cilium:
-	helm repo add cilium https://helm.cilium.io/
-	helm upgrade --install --kube-context kind-proxyless cilium cilium/cilium --version 1.13.2 --namespace kube-system -f cilium-proxyless.values.yaml --wait
-#	helm upgrade --install --kube-context kind-proxyless cilium cilium/cilium --version 1.13.2 --namespace kube-system -f cilium.values.yaml
+	kustomize build --enable-helm cilium | kubectl apply --context kind-proxyless -f -
 
 cilium-gateway-api:
 	kubectl --context kind-proxyless apply -k gateway-api-cilium
@@ -38,12 +35,11 @@ contour-httpproxy-demo-app:
 	kubectl --context kind-proxyless apply -k contour-httpproxy-demo-app
 
 apisix:
-	helm repo add apisix https://charts.apiseven.com
-	helm install apisix apisix/apisix --create-namespace  --namespace apisix -f apisix.values.yaml
-	helm install apisix-ingress-controller apisix/apisix-ingress-controller --namespace apisix
+	kustomize build --enable-helm apisix | kubectl apply --context kind-proxyless -f -
 
+# do not use this one, there's the official above
 apisix-bitnami:
-	helm upgrade --install --kube-context kind-proxyless apisix oci://registry-1.docker.io/bitnamicharts/apisix --namespace apisix --create-namespace -f apisix.values.yaml
+	helm upgrade --install --kube-context kind-proxyless apisix oci://registry-1.docker.io/bitnamicharts/apisix --namespace apisix --create-namespace -f apisix.values.yaml --wait
 
 # linkerd really dislikes helm, so get yourself linkerd's cli `curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/install | sh`
 linkerd:
