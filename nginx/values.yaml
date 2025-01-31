@@ -1,0 +1,21 @@
+controller:
+  # should we trust developers? (default: false)
+  allowSnippetAnnotations: true
+  annotationsRiskLevel: Critical
+  #priorityClassName: "infrastructure-critical"
+  replicaCount: 2
+  metrics:
+    enabled: true
+  podAnnotations:
+    "prometheus.io/scrape": "true"
+    "prometheus.io/port": "10254"
+  service:
+    # doesn't work inside kubelab
+    #externalTrafficPolicy: Local
+    annotations:
+      "service.beta.kubernetes.io/azure-load-balancer-internal": "false"
+      "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path": "/healthz"
+defaultBackend:
+  nodeSelector:
+    "kubernetes.io/os": linux
+#dhParam: "openssl dhparam 4096 2> /dev/null me"
