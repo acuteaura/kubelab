@@ -105,6 +105,11 @@ func main() {
 	}
 
 	http.ListenAndServe(":8080", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path == "/healthz" {
+			w.WriteHeader(http.StatusOK)
+			return
+		}
+
 		rei := parseRequest(r)
 
 		w.WriteHeader(rei.Code)

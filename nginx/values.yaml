@@ -24,6 +24,6 @@ defaultBackend:
   enabled: true
   image:
     repository: local/minidefaultbackend
-    tag: c19036e6c35224a904c624ab58a1f28efc6bdfaa27355dcaa8093c8ae362dcd1
+    tag: c8a9ce3e1f6831a870bb12f8d6db09578bd116e6d7d14626ae6d137681228244
   nodeSelector:
     "kubernetes.io/os": linux
