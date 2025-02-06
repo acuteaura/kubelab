@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 metadata:
   name: web-svc
   annotations:
-    nginx.ingress.kubernetes.io/auth-url: http://linkerd-gateway.emojivoto:8084/token
+    nginx.ingress.kubernetes.io/auth-url: http://miniauth.miniauth.svc.cluster.local/barekey/abc
 spec:
   ingressClassName: nginx
   rules:

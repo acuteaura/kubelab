@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: miniauth
+  name: miniauth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: miniauth
+  template:
+    metadata:
+      labels:
+        app: miniauth
+    spec:
+      containers:
+        - image: local/miniauth:48d54f97dacaae53c155bc90d5140902f3ad871365ba6f8d97ff1f3fd41ca5e5
+          name: miniauth
+          ports:
+            - containerPort: 8080
+              name: http
+          resources:
+            requests:
+              cpu: 100m

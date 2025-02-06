@@ -1,4 +1,5 @@
 CTX := "kind-kind"
+FAKETAG := choose('32', HEX)
 
 default:
     @just --list
@@ -24,3 +25,15 @@ nginx:
 
 demo:
 	kubectl --context {{CTX}} apply --server-side -k demo-app
+
+miniauth:
+    #!/usr/bin/env bash
+    set -eou pipefail
+    cd miniauth; docker build -f Containerfile -t local/miniauth .; cd ..
+    export IMAGE_ID=$(docker inspect --format='{{{{index .Id}}' local/miniauth)
+    export TAG=$(echo $IMAGE_ID | cut -d: -f2)
+    export IMAGE=local/miniauth:$TAG
+    docker tag $IMAGE_ID $IMAGE
+    kind load docker-image $IMAGE
+    yq -i '.spec.template.spec.containers[0].image = strenv(IMAGE)' miniauth-deploy/deployment.yaml
+    kubectl --context {{CTX}} apply --server-side -k miniauth-deploy
