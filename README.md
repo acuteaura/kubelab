@@ -4,8 +4,6 @@ Currently broken and not useful.
 
 ```bash
 just clean kind prometheus nginx demo
-go install sigs.k8s.io/cloud-provider-kind@latest
-sudo cloud-provider-kind # keep open to have a virtual IP the nginx load balancers
 ```
 
 https://grafana.local.gd
