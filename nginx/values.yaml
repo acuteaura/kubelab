@@ -2,12 +2,17 @@ controller:
   config:
     allow-snippet-annotations: "true"
     annotations-risk-level: Critical
-    force-ssl-redirect: "true"
-    disable-ipv6: "true"
     disable-ipv6-dns: "true"
+    disable-ipv6: "true"
+    force-ssl-redirect: "true"
     large-client-header-buffers: "8 16k"
     proxy-buffer-size: "128k"
-  replicaCount: 2
+    ssl-reject-handshake: "true"
+    use-gzip: "true"
+    enable-brotli: "true"
+    generate-request-id: "true"
+    custom-http-errors: "401,403,404,500"
+  replicaCount: 1
   metrics:
     enabled: true
   podAnnotations:
@@ -16,5 +21,9 @@ controller:
   service:
     externalTrafficPolicy: Local
 defaultBackend:
+  enabled: true
+  image:
+    repository: local/minidefaultbackend
+    tag: c19036e6c35224a904c624ab58a1f28efc6bdfaa27355dcaa8093c8ae362dcd1
   nodeSelector:
     "kubernetes.io/os": linux

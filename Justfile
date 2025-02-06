@@ -37,3 +37,15 @@ miniauth:
     kind load docker-image $IMAGE
     yq -i '.spec.template.spec.containers[0].image = strenv(IMAGE)' miniauth-deploy/deployment.yaml
     kubectl --context {{CTX}} apply --server-side -k miniauth-deploy
+
+minidefaultbackend:
+    #!/usr/bin/env bash
+    set -eou pipefail
+    cd minidefaultbackend; docker build -f Containerfile -t local/minidefaultbackend .; cd ..
+    export IMAGE_ID=$(docker inspect --format='{{{{index .Id}}' local/minidefaultbackend)
+    export TAG=$(echo $IMAGE_ID | cut -d: -f2)
+    export IMAGE=local/minidefaultbackend:$TAG
+    docker tag $IMAGE_ID $IMAGE
+    kind load docker-image $IMAGE
+    yq -i '.defaultBackend.image.tag = strenv(TAG)' nginx/values.yaml
+    just nginx

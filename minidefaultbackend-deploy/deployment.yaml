@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app.kubernetes.io/name: miniauth
-  name: miniauth
+    app.kubernetes.io/name: minidefaultbackend
+  name: minidefaultbackend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: miniauth
+      app: minidefaultbackend
   template:
     metadata:
       labels:
-        app: miniauth
+        app: minidefaultbackend
     spec:
       containers:
-        - image: local/miniauth:b10d367682a21bf1b6acf3f489651067ae1e3846611b6dae6ed254b31e6e3fb4
-          name: miniauth
+        - image: local/minidefaultbackend:d2c15c994ea12b5bcf775fffab855000cd60317b70f0733fc5715412c2b22109
+          name: minidefaultbackend
           ports:
             - containerPort: 8080
               name: http

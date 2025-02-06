@@ -1,0 +1,22 @@
+FROM golang:1.23.4-alpine AS prepare
+RUN mkdir /root/app
+WORKDIR /root/app
+COPY go.mod go.sum .
+RUN --mount=type=cache,target=/root/.cache/go-build go mod download
+COPY . .
+
+FROM prepare AS build
+RUN --mount=type=cache,target=/root/.cache/go-build CGO_ENABLED=0 go build \
+	-ldflags '-d -s -w' \
+	-o /minidbe .
+
+FROM build AS test
+RUN --mount=type=cache,target=/root/.cache/go-build cp -r /root/.cache/go-build /root/.cache/go-build-tmp
+RUN mv /root/.cache/go-build-tmp /root/.cache/go-build
+RUN go install honnef.co/go/tools/cmd/staticcheck@latest
+
+FROM alpine:3.20.0 AS runtime
+RUN apk add bash curl
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+COPY --from=build --chown=appuser:appgroup /minidbe /usr/local/bin/minidbe
+CMD ["/usr/local/bin/minidbe"]
