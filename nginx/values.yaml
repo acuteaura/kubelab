@@ -1,8 +1,13 @@
 controller:
-  # should we trust developers? (default: false)
-  allowSnippetAnnotations: true
-  annotationsRiskLevel: Critical
-  #priorityClassName: "infrastructure-critical"
+  config:
+    allow-snippet-annotations: "true"
+    annotations-risk-level: Critical
+    force-ssl-redirect: "true"
+    disable-ipv6: "true"
+    disable-ipv6-dns: "true"
+    http-snippet: |
+      # anticipate developers being developers
+      nginx_http_large_client_header_buffers 4 8k;
   replicaCount: 2
   metrics:
     enabled: true
@@ -10,12 +15,7 @@ controller:
     "prometheus.io/scrape": "true"
     "prometheus.io/port": "10254"
   service:
-    # doesn't work inside kubelab
-    #externalTrafficPolicy: Local
-    annotations:
-      "service.beta.kubernetes.io/azure-load-balancer-internal": "false"
-      "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path": "/healthz"
+    externalTrafficPolicy: Local
 defaultBackend:
   nodeSelector:
     "kubernetes.io/os": linux
-#dhParam: "openssl dhparam 4096 2> /dev/null me"

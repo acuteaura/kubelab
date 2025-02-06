@@ -1,0 +1,6 @@
+controller:
+  priorityClassName: "infrastructure-critical"
+  service:
+    annotations:
+      "service.beta.kubernetes.io/azure-load-balancer-internal": "false"
+      "service.beta.kubernetes.io/azure-load-balancer-health-probe-request-path": "/healthz"

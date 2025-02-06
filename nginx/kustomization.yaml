@@ -6,4 +6,6 @@ helmCharts:
     releaseName: ingress-nginx
     namespace: kube-system
     valuesFile: values.yaml
+    additionalValuesFiles:
+      - values-kind.yaml
     includeCRDs: true
